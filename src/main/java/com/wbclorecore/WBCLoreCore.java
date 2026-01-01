@@ -1,6 +1,7 @@
 package com.wbclorecore;
 
-import com.wbclorecore.listeners.PortalListener;
+import com.wbclorecore.portals.PortalData;
+import com.wbclorecore.portals.PortalListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class WBCLoreCore extends JavaPlugin {

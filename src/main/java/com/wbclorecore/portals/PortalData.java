@@ -1,5 +1,6 @@
-package com.wbclorecore;
+package com.wbclorecore.portals;
 
+import com.wbclorecore.WBCLoreCore;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

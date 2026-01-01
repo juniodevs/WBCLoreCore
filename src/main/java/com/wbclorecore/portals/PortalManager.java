@@ -1,4 +1,4 @@
-package com.wbclorecore;
+package com.wbclorecore.portals;
 import org.bukkit.Axis;
 import org.bukkit.Location;
 import org.bukkit.Material;

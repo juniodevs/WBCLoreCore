@@ -1,7 +1,5 @@
-package com.wbclorecore.listeners;
+package com.wbclorecore.portals;
 
-import com.wbclorecore.PortalData;
-import com.wbclorecore.PortalManager;
 import com.wbclorecore.WBCLoreCore;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
