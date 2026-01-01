@@ -16,6 +16,11 @@ Uma mecânica que revitaliza o uso da Crying Obsidian, permitindo que ela seja u
     *   Mantém a proporção de coordenadas 1:8.
     *   Gera portais de saída automaticamente e salva suas localizações para conexões consistentes.
 
+### 🏰 Strongholds
+Alterações na geração das fortalezas para se adequar à lore do servidor.
+
+*   **Remoção de Portais do End:** Os portais do End são removidos automaticamente das Strongholds assim que os chunks são gerados, impedindo o acesso tradicional ao The End por meio delas.
+
 ---
 
 *Mais funcionalidades e mecânicas de lore serão documentadas aqui conforme forem implementadas.*
