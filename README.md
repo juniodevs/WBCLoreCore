@@ -9,7 +9,7 @@ O objetivo deste plugin é centralizar as modificações de gameplay, garantindo
 ### 🔮 Portais de Crying Obsidian (Obsidiana Chorona)
 Uma mecânica que revitaliza o uso da Crying Obsidian, permitindo que ela seja usada para construir portais funcionais para o Nether.
 
-*   **Construção Personalizada:** A estrutura segue as regras clássicas dos portais (mínimo 2x3, máximo 23x23), mas exige o uso exclusivo de **Crying Obsidian** na moldura.
+*   **Construção Personalizada:** A estrutura segue as regras clássicas dos portais (mínimo 2x3, máximo 10x10), mas exige o uso exclusivo de **Crying Obsidian** na moldura.
 *   **Ativação:** Utilize um **Isqueiro (Flint and Steel)** na parte interna da moldura para acender o portal.
 *   **Conexão Inteligente:**
     *   Teleporte fluido entre Overworld e Nether.
