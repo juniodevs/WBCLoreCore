@@ -10,7 +10,7 @@ import org.bukkit.util.Vector;
 import java.util.HashSet;
 import java.util.Set;
 public class PortalManager {
-    private static final int MAX_SIZE = 23;
+    private static final int MAX_SIZE = 10;
     private static final int MIN_SIZE = 2;
     public static boolean tryCreatePortal(Block clickedBlock) {
         if (checkAndCreate(clickedBlock, Axis.X)) return true;
@@ -18,6 +18,8 @@ public class PortalManager {
         return false;
     }
     private static boolean checkAndCreate(Block start, Axis axis) {
+        int maxSize = MAX_SIZE;
+
         BlockFace right = (axis == Axis.X) ? BlockFace.EAST : BlockFace.SOUTH;
         BlockFace left = (axis == Axis.X) ? BlockFace.WEST : BlockFace.NORTH;
         BlockFace up = BlockFace.UP;
@@ -25,11 +27,11 @@ public class PortalManager {
         Block current = start;
         while (current.getRelative(down).getType() == Material.AIR || current.getRelative(down).getType() == Material.FIRE) {
             current = current.getRelative(down);
-            if (start.getY() - current.getY() > MAX_SIZE) return false;
+            if (start.getY() - current.getY() > maxSize) return false;
         }
         while (current.getRelative(left).getType() == Material.AIR || current.getRelative(left).getType() == Material.FIRE) {
             current = current.getRelative(left);
-            if (start.getLocation().distanceSquared(current.getLocation()) > MAX_SIZE * MAX_SIZE) return false;
+            if (start.getLocation().distanceSquared(current.getLocation()) > maxSize * maxSize) return false;
         }
         Block bottomLeftAir = current;
         if (bottomLeftAir.getRelative(down).getType() != Material.CRYING_OBSIDIAN) return false;
@@ -40,7 +42,7 @@ public class PortalManager {
             width++;
             if (current.getRelative(down).getType() != Material.CRYING_OBSIDIAN) return false; 
             current = current.getRelative(right);
-            if (width > MAX_SIZE) return false;
+            if (width > maxSize) return false;
         }
         if (current.getType() != Material.CRYING_OBSIDIAN) return false;
         if (width < MIN_SIZE) return false;
@@ -58,7 +60,7 @@ public class PortalManager {
                     if (colCurrent.getRelative(right).getType() != Material.CRYING_OBSIDIAN) return false;
                 }
                 colCurrent = colCurrent.getRelative(up);
-                if (colHeight > MAX_SIZE) return false;
+                if (colHeight > maxSize) return false;
             }
             if (colCurrent.getType() != Material.CRYING_OBSIDIAN) return false;
             if (height == 0) height = colHeight;
