@@ -1,0 +1,6 @@
+name: WBCLoreCore
+version: 1.0
+main: com.wbclorecore.WBCLoreCore
+api-version: 1.21
+authors: [WBC Devs]
+description: Core plugin for WBC Lore, featuring Crying Obsidian Portals.

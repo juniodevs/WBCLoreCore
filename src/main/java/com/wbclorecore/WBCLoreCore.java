@@ -1,0 +1,25 @@
+package com.wbclorecore;
+
+import com.wbclorecore.listeners.PortalListener;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class WBCLoreCore extends JavaPlugin {
+
+    private PortalData portalData;
+
+    @Override
+    public void onEnable() {
+        getLogger().info("WBCLoreCore has been enabled!");
+        this.portalData = new PortalData(this);
+        getServer().getPluginManager().registerEvents(new PortalListener(this), this);
+    }
+
+    @Override
+    public void onDisable() {
+        getLogger().info("WBCLoreCore has been disabled!");
+    }
+
+    public PortalData getPortalData() {
+        return portalData;
+    }
+}
