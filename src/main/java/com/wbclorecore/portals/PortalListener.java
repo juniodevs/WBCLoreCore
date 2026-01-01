@@ -108,8 +108,6 @@ public class PortalListener implements Listener {
                         event.setTo(dest);
                     }
                 }
-            } else {
-                event.setCancelled(true);
             }
         }
     }
