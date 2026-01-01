@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -36,7 +37,9 @@ public class EnderChestListener implements Listener {
                 
                 player.playSound(block.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 1.0f, 1.0f);
                 
-                manager.openEnderChest(player);
+                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                    manager.openEnderChest(player, block);
+                }, 1L);
             }
         }
     }
@@ -46,8 +49,10 @@ public class EnderChestListener implements Listener {
         if (event.getPlayer() instanceof Player) {
             Player player = (Player) event.getPlayer();
             if (manager.isEnderChestOpen(player)) {
-                player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
-                manager.saveEnderChest(player);
+                if (event.getInventory().equals(manager.getOpenInventory(player))) {
+                    player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1.0f, 1.0f);
+                    manager.saveEnderChest(player);
+                }
             }
         }
     }
@@ -56,6 +61,13 @@ public class EnderChestListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (manager.isEnderChestOpen(event.getPlayer())) {
             manager.saveEnderChest(event.getPlayer());
+        }
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+        if (event.getBlock().getType() == Material.ENDER_CHEST) {
+            manager.closeInventoriesForBlock(event.getBlock().getLocation());
         }
     }
 }

@@ -2,9 +2,12 @@ package com.wbclorecore.enderchest;
 
 import com.wbclorecore.WBCLoreCore;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,8 +22,8 @@ public class EnderChestManager {
 
     private final WBCLoreCore plugin;
     private final File dataFolder;
-    // Cache open inventories to ensure we save the right instance
     private final Map<UUID, Inventory> openInventories = new HashMap<>();
+    private final Map<UUID, Location> openBlockLocations = new HashMap<>();
 
     public EnderChestManager(WBCLoreCore plugin) {
         this.plugin = plugin;
@@ -30,15 +33,26 @@ public class EnderChestManager {
         }
     }
 
-    public void openEnderChest(Player player) {
-        // If already open (shouldn't happen normally with interact event, but good safety), return
+    public void openEnderChest(Player player, Block block) {
         if (openInventories.containsKey(player.getUniqueId())) {
-            player.openInventory(openInventories.get(player.getUniqueId()));
-            return;
+            saveEnderChest(player);
         }
 
         File playerFile = new File(dataFolder, player.getUniqueId() + ".yml");
-        Inventory inventory = Bukkit.createInventory(null, 54, "Ender Chest");
+        
+        Block targetBlock = block;
+        if (targetBlock == null) {
+            targetBlock = player.getLocation().getBlock();
+        }
+        
+        targetBlock = targetBlock.getRelative(0, -3, 0);
+        
+        if (targetBlock.getY() < targetBlock.getWorld().getMinHeight()) {
+             targetBlock = targetBlock.getWorld().getBlockAt(targetBlock.getX(), targetBlock.getWorld().getMinHeight(), targetBlock.getZ());
+        }
+        
+        BlockInventoryHolder holder = new EnderChestHolder(targetBlock);
+        Inventory inventory = Bukkit.createInventory(holder, 54, "Ender Chest");
 
         if (playerFile.exists()) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(playerFile);
@@ -52,11 +66,15 @@ public class EnderChestManager {
         }
 
         openInventories.put(player.getUniqueId(), inventory);
+        if (block != null) {
+            openBlockLocations.put(player.getUniqueId(), block.getLocation());
+        }
         player.openInventory(inventory);
     }
 
     public void saveEnderChest(Player player) {
         Inventory inventory = openInventories.remove(player.getUniqueId());
+        openBlockLocations.remove(player.getUniqueId());
         if (inventory == null) {
             return;
         }
@@ -87,5 +105,39 @@ public class EnderChestManager {
     
     public boolean isEnderChestOpen(Player player) {
         return openInventories.containsKey(player.getUniqueId());
+    }
+
+    public Inventory getOpenInventory(Player player) {
+        return openInventories.get(player.getUniqueId());
+    }
+
+    public void closeInventoriesForBlock(Location location) {
+        for (UUID uuid : new HashMap<>(openBlockLocations).keySet()) {
+            Location loc = openBlockLocations.get(uuid);
+            if (loc != null && loc.equals(location)) {
+                Player player = Bukkit.getPlayer(uuid);
+                if (player != null) {
+                    player.closeInventory();
+                }
+            }
+        }
+    }
+
+    private static class EnderChestHolder implements BlockInventoryHolder {
+        private final Block block;
+
+        public EnderChestHolder(Block block) {
+            this.block = block;
+        }
+
+        @Override
+        public Block getBlock() {
+            return block;
+        }
+
+        @Override
+        public Inventory getInventory() {
+            return null;
+        }
     }
 }
