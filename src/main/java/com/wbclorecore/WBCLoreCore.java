@@ -13,6 +13,7 @@ public class WBCLoreCore extends JavaPlugin {
         getLogger().info("WBCLoreCore has been enabled!");
         this.portalData = new PortalData(this);
         getServer().getPluginManager().registerEvents(new PortalListener(this), this);
+        getServer().getPluginManager().registerEvents(new com.wbclorecore.portals.StrongholdPortalListener(this), this);
     }
 
     @Override
