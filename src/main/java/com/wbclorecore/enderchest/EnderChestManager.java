@@ -38,7 +38,7 @@ public class EnderChestManager {
         }
 
         File playerFile = new File(dataFolder, player.getUniqueId() + ".yml");
-        Inventory inventory = Bukkit.createInventory(player, 54, "Ender Chest");
+        Inventory inventory = Bukkit.createInventory(null, 54, "Ender Chest");
 
         if (playerFile.exists()) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(playerFile);
