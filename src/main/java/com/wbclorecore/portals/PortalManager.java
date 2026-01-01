@@ -11,7 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 public class PortalManager {
     private static final int MAX_SIZE = 10;
-    private static final int MIN_SIZE = 2;
+    private static final int MIN_WIDTH = 2;
+    private static final int MIN_HEIGHT = 3;
     public static boolean tryCreatePortal(Block clickedBlock) {
         if (checkAndCreate(clickedBlock, Axis.X)) return true;
         if (checkAndCreate(clickedBlock, Axis.Z)) return true;
@@ -45,7 +46,7 @@ public class PortalManager {
             if (width > maxSize) return false;
         }
         if (current.getType() != Material.CRYING_OBSIDIAN) return false;
-        if (width < MIN_SIZE) return false;
+        if (width < MIN_WIDTH) return false;
         int height = 0;
         for (int w = 0; w < width; w++) {
             Block colBase = bottomLeftAir.getRelative(right, w);
@@ -66,7 +67,7 @@ public class PortalManager {
             if (height == 0) height = colHeight;
             else if (height != colHeight) return false; 
         }
-        if (height < MIN_SIZE) return false;
+        if (height < MIN_HEIGHT) return false;
         for (int w = 0; w < width; w++) {
             for (int h = 0; h < height; h++) {
                 Block portalBlock = bottomLeftAir.getRelative(right, w).getRelative(up, h);
